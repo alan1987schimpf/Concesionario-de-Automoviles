@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+        <link rel="stylesheet" href="style.css">
+        <title>Concesionario de Vehiculos</title>
+    </head>
+
+    <body>   
+        <main id="app">
+            <section class="container">          
+                <br>
+                <form id="new-todo-form" @submit.prevent="agregarAutomovil" v-if="showAddForm">
+                    <div class="mb-3">
+                        <input type="text" id="marca" placeholder="Marca" class="form-control" v-model="nuevoAutomovil.marca" >
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" id="modelo" placeholder="Modelo" class="form-control" v-model="nuevoAutomovil.modelo" >
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" id="patente" placeholder="Patente" class="form-control" v-model="nuevoAutomovil.patente" >
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" id="color" placeholder="Color" class="form-control" v-model="nuevoAutomovil.color" >
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" id="fechadefabricacion" placeholder="Fecha de fabricacion" class="form-control" v-model="nuevoAutomovil.fechadefabricacion" >
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" id="caja" placeholder="Caja" class="form-control" v-model="nuevoAutomovil.caja" >
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" id="puertas" placeholder="Puertas" class="form-control" v-model="nuevoAutomovil.puertas" >
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" id="foto" placeholder="Foto" class="form-control" v-model="nuevoAutomovil.foto" >
+                    </div>
+                    <br>
+                        <input type="button" class="btn btn-primary" @click="agregarAutomovil()" value="Agregar Automovil"></input>
+                </form>
+            </section>
+
+            <section class="container">          
+                <br>
+                <form id="new-todo-form-1" @submit.prevent="modificarAutomovil" v-if="showUpdateForm">
+                    <div class="mb-3">
+                        <h6 class="card-title">Marca: </h6>
+                        <input type="text" id="marca" class="form-control" v-model="automovilModificado.marca" >
+                    </div>
+                    <div class="mb-3">
+                        <h6 class="card-title">Modelo: </h6>
+                        <input type="text" id="modelo" class="form-control" v-model="automovilModificado.modelo" >
+                    </div>
+                    <div class="mb-3">
+                        <h6 class="card-title">Patente: </h6>
+                        <input type="text" id="patente" class="form-control" v-model="automovilModificado.patente" >
+                    </div>
+                    <div class="mb-3">
+                        <h6 class="card-title">Color: </h6>
+                        <input type="text" id="color" class="form-control" v-model="automovilModificado.color" >
+                    </div>
+                    <div class="mb-3">
+                        <h6 class="card-title">Fecha de Fabricacion: </h6>
+                        <input type="text" id="fechadefabricacion" class="form-control" v-model="automovilModificado.fechadefabricacion" >
+                    </div>
+                    <div class="mb-3">
+                        <h6 class="card-title">Caja: </h6>
+                        <input type="text" id="caja" class="form-control" v-model="automovilModificado.caja" >
+                    </div>
+                    <div class="mb-3">
+                        <h6 class="card-title">Puertas: </h6>
+                        <input type="text" id="puertas" class="form-control" v-model="automovilModificado.puertas" >
+                    </div>
+                    <div class="mb-3">
+                        <h6 class="card-title">Foto: </h6>
+                        <input type="text" id="foto" class="form-control" v-model="automovilModificado.foto" >
+                    </div>
+                        <input type="button" class="btn btn-secondary" @click="modificarbaseAutomovil(automovilModificado, automovilModificado.id)" value="Modificar Automovil"></input>
+                </form>
+                <br>
+            </section>
+
+            <div class="container">
+
+                <form id="form-inicio" @submit.prevent="Inicio" v-if="MostrarFormularioDeInicio">
+                    <div class="p-3 mb-2 bg-dark text-white"><h3>Concesionario de Vehiculos</h3></div>
+                    <img src="https://img.freepik.com/vector-gratis/vendedor-pie-delante-coches-sala-exposicion_37895-202.jpg?size=626&ext=jpg" alt="Image" height="300" width="1115">
+                </form>
+
+                <form id="form-lista" @submit.prevent="Inicio" v-if="ListaDeVehiculos">
+                    <div class="p-3 mb-2 bg-dark text-white"><h3>Lista de Vehiculos</h3></div>
+                </form>
+
+                <br>
+                <div id="auto-list" v-for="auto in automoviles" @click="toggleActive(auto)">
+                    <div class="row">
+                          <div class="col-lg-10">
+                            <div class="card">
+                                <img class="card-img-top" v-bind:src="auto.foto"/>
+                                <div class="card-body">
+                                    <div class="p-3 mb-2 bg-info text-white"><h4 class="card-title">Marca: {{auto.marca}}</h4></div>
+                                    <h5 class="card-title"><p class="text-secondary">Modelo: {{auto.modelo}}</p></h5>
+                                    <h6 class="card-title"><p class="text-secondary">Patente: {{auto.patente}}</p></h6>
+                                    <h6 class="card-title"><p class="text-secondary">Color: {{auto.color}}</p></h6>
+                                    <h6 class="card-title"><p class="text-secondary">Fecha de fabricacion: {{auto.fechadefabricacion}}</p></h6>
+                                    <h6 class="card-title"><p class="text-secondary">Caja: {{auto.caja}}</p></h6>
+                                    <h6 class="card-title"><p class="text-secondary">Puertas: {{auto.puertas}}</p></h6>
+                                    <div v-if="auto.active">
+                                        <button class="btn btn-dark" @click="borrarAutomovil(auto.id)">Borrar</button>
+                                        <button class="btn btn-secondary" @click="modificarAutomovil(auto)">Modificar</button>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                    </div>
+                </div> 
+                <br>
+            </div>
+            <div class="container">
+                <button class="btn btn-secondary" @click="search()">Mostrar Lista de Vehiculos</button>	
+                <br>
+                <br>		
+                <button class="btn btn-secondary" @click="toggleShowAddForm()" v-if="!showAddForm">Agregar un Vehiculo</button>	
+            </div>
+        </main>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.min.js" integrity="sha512-0qU9M9jfqPw6FKkPafM3gy2CBAvUWnYVOfNPDYKVuRTel1PrciTj+a9P3loJB+j0QmN2Y0JYQmkBBS8W+mbezg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="scripts.js"></script>
+    </body>
+
+</html>

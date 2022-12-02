@@ -1,0 +1,8 @@
+Provee logica para describir la API:
+
+http://localhost:8080/v3/api-docs/                        JSON
+
+Provee interface grafica para poder documentar la API:
+
+http://localhost:8080/swagger-ui/index.html                 swagger
+
